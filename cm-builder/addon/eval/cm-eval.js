@@ -37,9 +37,10 @@
   // before we post any message;
   var ifEl = null;
 
-  // set the ifEl variable
-  function initSandboxIframe() {
+  // init the ifEl variable, i.e., the underlying sanbox iframe
+  function initEvalSandboxWithPath(pkgPath) {
     if (ifEl) { // in case the function called multipe times, only 1 iframe will be created.
+      if (console && consle.warn) console.warn('initEvalSandboxWithPath() called again. Ignoring. pkgPath:', pkgPath)
       return;
     }
 
@@ -52,24 +53,19 @@
       ifEl = document.createElement('iframe');
       ifEl.style.display = 'none';
       ifEl.id = 'eval-src';
-      ifEl.src = 'cm-builder/addon/eval/cm-eval-sandbox.html';
+      ifEl.src = pkgPath + '/cm-eval-sandbox.html';
       document.body.appendChild(ifEl);
 
       return ifEl;
     })(); // ifEl = (function())
-  } // function initSandboxIframe()
-
-  // listen to load rather than DOMConentLoaded: somehow
-  // in Chrome App DOMConentLoaded is not fired.
-  // load is supported by more browsers anyway..
-  window.addEventListener("load", initSandboxIframe);
-  if ("loading" !== document.readyState) {
-    // in case the script is run after load, run it here.
-    initSandboxIframe();
-  }
+  } // function initEvalSandboxWithPath()
 
 
   function evalSrc(cm, src) {
+    if (!ifEl) {
+      throw new Error('evalSrc(): the underlying sanbox iframe has not been initialized');
+    }
+    
     var message = {
       command: 'eval',
       src: src
@@ -156,4 +152,5 @@
   CodeMirror.commands.evalSmart = evalSmart;
   CodeMirror.keyMap["default"]["Alt-E"] = "evalSmart";
 
+  CodeMirror.initEvalSandboxWithPath = initEvalSandboxWithPath;
 });

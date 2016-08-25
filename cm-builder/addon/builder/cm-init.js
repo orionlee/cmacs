@@ -54,7 +54,7 @@
 
               "../misc/colnummode",
               "../execcommand/execcommand",
-              /// PENDING "../eval/cm-eval",
+              "../eval/cm-eval",
 
               "codemirror/addon/edit/trailingspace",
               "../edit/trailingspace-removal",

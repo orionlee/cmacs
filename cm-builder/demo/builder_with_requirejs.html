@@ -109,7 +109,10 @@
           
         editor.setValue(document.body.innerHTML);
 
+        // Misc. one-time config (across all CodeMirror instances)
         CodeMirror.modeURL = "codemirror/mode/%N/%N";
+        CodeMirror.initEvalSandboxWithPath("../addon/eval");
+        
         document.getElementById("markdown").addEventListener("click", function() {
           CodeMirror.requireMode("markdown", function() {
             editor.replaceRange("This is **Markdown**.\n\n", {line: 0, ch: 0});
