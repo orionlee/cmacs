@@ -43,8 +43,12 @@
 
               "codemirror/addon/lint/lint",
 
-              /// PENDING (dist/jshint.js load problem in AMD) "jshint/dist/jshint",
-              /// PENDING "codemirror/addon/lint/javascript-lint",
+              // Note: prefer to use 2.5.1 - 2.6.3. 
+              // Versions < v.2.5, or  v2.7.0+ (at least up to v2.9.3)
+              // does not work with RequireJs / AMD
+              // @see https://github.com/jshint/jshint/issues/2840
+              "jshint/dist/jshint", 
+              "codemirror/addon/lint/javascript-lint",
 
               "jsonlint/lib/jsonlint",
               "codemirror/addon/lint/json-lint",

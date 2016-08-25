@@ -19,7 +19,8 @@
   "dependencies": {
     "codemirror": "^5.17.0",
     "htmlhint": "^0.9.13",
-    "jshint": "^2.9.3",
-    "jsonlint": "^1.6.2"
-  }
+    "jsonlint": "^1.6.2",
+    "jshint": "2.5.1 - 2.6.3"
+  },
+  "//" : "jshint: pre-2.5.1 or post-2.6.3 breaks in RequireJS environment. Avoid Latest for now."
 }
