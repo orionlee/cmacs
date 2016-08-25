@@ -1,8 +1,70 @@
 (function(mod) {
+  var deps = ["codemirror/lib/codemirror",
+              "codemirror/addon/hint/show-hint",
+
+              "codemirror/mode/javascript/javascript",
+              "codemirror/addon/hint/javascript-hint",
+
+              "codemirror/mode/css/css",
+              "codemirror/addon/hint/css-hint",
+
+              "codemirror/mode/xml/xml",
+              "codemirror/mode/htmlmixed/htmlmixed",
+              "codemirror/addon/hint/xml-hint",
+              "codemirror/addon/hint/html-hint",
+
+              "codemirror/addon/hint/anyword-hint",
+
+              "codemirror/addon/mode/loadmode",
+              "codemirror/addon/mode/overlay", // needed by some mode such as markdown
+              "codemirror/mode/meta",
+
+              "codemirror/addon/edit/matchbrackets",
+              "codemirror/addon/edit/closebrackets",
+              "codemirror/addon/edit/closetag",
+              "codemirror/addon/search/match-highlighter",
+
+              "../mode/javascript/closebrackets-patch4javascript", // MUST be placed after closebrackets addon
+
+              "codemirror/addon/comment/continuecomment",
+
+              "codemirror/addon/fold/foldcode",
+              "codemirror/addon/fold/brace-fold",
+              "codemirror/addon/fold/xml-fold",
+              "codemirror/addon/fold/comment-fold",
+              "codemirror/addon/fold/foldgutter",
+
+              "codemirror/addon/dialog/dialog",
+              "../hint/show-hint-dialog",  // needed for aotocomplete by serarch and execCommandInteractive
+              "../search/search",
+              "../search/search-autocomplete",
+
+              "codemirror/addon/search/jump-to-line",
+
+              "codemirror/addon/lint/lint",
+
+              /// PENDING (dist/jshint.js load problem in AMD) "jshint/dist/jshint",
+              /// PENDING "codemirror/addon/lint/javascript-lint",
+
+              "jsonlint/lib/jsonlint",
+              "codemirror/addon/lint/json-lint",
+
+              "htmlhint/lib/htmlhint",
+              "codemirror/addon/lint/html-lint", // NOTE: as of v5.18.1, it requires htmlhint's main be defined
+
+              "../misc/colnummode",
+              "../execcommand/execcommand",
+              /// PENDING "../eval/cm-eval",
+
+              "codemirror/addon/edit/trailingspace",
+              "../edit/trailingspace-removal",
+              "../misc/font-size",
+             ]; // deps = ...
+
   if (typeof exports == "object" && typeof module == "object") // CommonJS
-    mod(require("codemirror/lib/codemirror"));
+    mod.apply( null, deps.map(function(d) { return require(d); }) );
   else if (typeof define == "function" && define.amd) // AMD
-    define(["codemirror/lib/codemirror"], mod);
+    define(deps, mod);
   else // Plain browser env
     mod(CodeMirror);
 })(function(
@@ -71,7 +133,7 @@
         "Ctrl-Q": "toggleFold",
         "Shift-Ctrl-Q": "foldAll", // toggleFoldAll is problematic both semantically and implementation
         "Ctrl-Space": "autocomplete",
-        "Alt-F": "findPersistent", 
+        "Alt-F": "findPersistent",
       },
       foldGutter: true,
       gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
@@ -108,7 +170,11 @@
     initSelectToLine(cm);
 
     extendSearchUI(cm, uiCtrl); // to show num. of matches
-    CodeMirror.extendSearchWithAutoComplete(cm);
+    if (CodeMirror.extendSearchWithAutoComplete) {
+      CodeMirror.extendSearchWithAutoComplete(cm);
+    } else {
+      console.warn("search-autocomplete addon is not loaded. Autocomplete disabled.");
+    }
 
     initToggleShowTrailingSpace(CodeMirror);
     cm.setOption('newlineAndIndent', {removeTrailingSpace: true} ); // depends on trailingspace-removal.js
@@ -119,14 +185,14 @@
   } // function createCodeMirror
 
   /**
-   * Extend standard CodeMirror search addon to show number of matches in the 
-   * parent UI.  
+   * Extend standard CodeMirror search addon to show number of matches in the
+   * parent UI.
    * @param uiCtrl parent UI abstraction, it should have a function .setSearchStatus(query, numMatched) that can be used to update number of matches of search.
    */
   function extendSearchUI(cm, uiCtrl) {
 
     if (!uiCtrl.setSearchStatus) {
-      console.debug('extendSearchUI(): uiCtrl does not implement setSearchStatus(). No extended UI will be used.');
+      console.warn('extendSearchUI(): uiCtrl does not implement setSearchStatus(). No extended UI will be used.');
       return;
     }
 
@@ -144,8 +210,8 @@
       function countNumMatched(query) {
         var qryREActual = (function() {
           if (typeof(query) === 'string') {
-            // escape special characters used by RegExp 
-            var queryTxtForRE = query.replace(/([.[(+*?])/g, '\\$1');  
+            // escape special characters used by RegExp
+            var queryTxtForRE = query.replace(/([.[(+*?])/g, '\\$1');
             if (queryTxtForRE.toLowerCase() === queryTxtForRE) {
               // case insenstive search
               return new RegExp(queryTxtForRE, 'gi');
@@ -178,7 +244,7 @@
     } // function onSearchChange(..)
 
     cm.on("search", onSearchChange);
-    
+
   } // function extendSearchUI(..)
 
 
@@ -516,4 +582,4 @@
     };
     CodeMirror.builder = builder;
 
-  });
+});
