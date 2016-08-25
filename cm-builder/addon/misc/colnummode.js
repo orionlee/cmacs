@@ -20,7 +20,7 @@
   "use strict";
 
   function doShowColumnNumber(cm) {
-    cm._columNumberModeCallback(true, cm.getCursor());
+    cm.state._columnNumberModeCallback(true, cm.getCursor());
   } // function doShowColumnNumber()
 
   function showColumnNumber(cm) {
@@ -30,7 +30,7 @@
 
   function hideColumnNumber(cm) {
     function doHideColumnNumber(cm) {
-      cm._columNumberModeCallback(false, null);
+      cm.state._columnNumberModeCallback(false, null);
     } // function doHideColumnNumber(..)
 
     cm.off('cursorActivity', doShowColumnNumber);
@@ -49,7 +49,7 @@
     if (prev.enabled && !val.enabled) { // disabling, i.e., from true to false
       hideColumnNumber(cm);
     } else if (!prev.enabled && val.enabled) { // enabling, i.e., from false to true
-      cm._columNumberModeCallback = val.callback;
+      cm.state._columnNumberModeCallback = val.callback;
       showColumnNumber(cm);
     } // else option not changed, no action
 
@@ -63,7 +63,7 @@
     if (opt && opt.enabled) { // currently enabled: disable it
       cm.setOption("columnNumberMode", {enabled: false});
     } else { // currently disabled, enable it.
-      cm.setOption("columnNumberMode", {enabled: true, callback: cm._columNumberModeCallback});
+      cm.setOption("columnNumberMode", {enabled: true, callback: cm.state._columnNumberModeCallback});
     }
   } // function toggleColumnNumberMode(..)
 

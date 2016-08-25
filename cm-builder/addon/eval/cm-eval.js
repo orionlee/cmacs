@@ -100,7 +100,7 @@
       // err.stack contains tag-like string, so use textContent to html escape it
       document.getElementById('errStack').textContent =
         err.matchedSrc ? err.matchedSrc + '\n' + err.stack : err.stack;
-      cm._evalLastResult = err; // for power users to debug
+      cm.state._evalLastResult = err; // for power users to debug
     } else {
       cm.openDialog('<button type="button">Ok</button> Result: <pre id="evalResult" style="font-family: monospace; margin-left: 12px;"></pre>', null, {});
       // use textContent to html scape it
@@ -109,7 +109,7 @@
       if (resEl.offsetHeight < 25) { // if the result is typical 1-line, then display inline
         resEl.style.display = 'inline-block';
       }
-      cm._evalLastResult = result; // for power users to debug
+      cm.state._evalLastResult = result; // for power users to debug
     }
   } // function reportEvalResult(..)
 

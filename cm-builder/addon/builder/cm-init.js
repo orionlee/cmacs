@@ -432,13 +432,13 @@
 
     function disableLint(cm) {
       cm.setOption('lint', false);
-      if (cm._onUpdateLinting) {
-        cm._onUpdateLinting(null); // Update UI to show Lint disabled altogher.
+      if (cm.state._onUpdateLinting) {
+        cm.state._onUpdateLinting(null); // Update UI to show Lint disabled altogher.
       }
     } // function disableLint(..)
 
     function enableLint(cm) {
-      cm.setOption('lint', { onUpdateLinting: cm._onUpdateLinting,
+      cm.setOption('lint', { onUpdateLinting: cm.state._onUpdateLinting,
                             /// lintOnChange: false
                             });
 
@@ -461,7 +461,7 @@
     // to the instance itself
     // This is done so that the commands (non-instance specific)
     // can work on any CM instances, provied _onUpdateListing is set correctly.
-    cm._onUpdateLinting = onUpdateLinting;
+    cm.state._onUpdateLinting = onUpdateLinting;
 
     // Note: the commands are
     bindCommand('toggleLint',  {keyName: "F10" }, toggleLint);
