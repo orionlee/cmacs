@@ -322,7 +322,7 @@ chrome.contextMenus.onClicked.addListener(function(info) {
     
     editor = CodeMirror.builder.create(document.getElementById("editor"), _uiCtrl);
     CodeMirror.modeURL = "node_modules/codemirror/mode/%N/%N.js";  // one-time init for autoload mode feature
-    CodeMirror.initEvalSandboxWithPath("cm-builder/addon/eval"); // one-time init for eval addon
+    CodeMirror.initEvalSandboxWithPath("codemirror-plus/addon/eval"); // one-time init for eval addon
     window.editor = editor; // the top level export, entry point to the created editor
     
     _uiCtrl.setEditorFocusFunction(editor.focus.bind(editor));
