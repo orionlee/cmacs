@@ -12,9 +12,11 @@ CMACS is inspired by Emacs, in that the interface is barebone. It also has a few
   * Note: it compliments the default language-specific autocomplete Ctrl-Space.
 * Key Bindings, however, are not Emacs-like. CodeMirror does come with a emacs key bindings package that somewhat approximate the bindings. See [Ymacs](http://www.ymacs.org/) if you are looking for a closer clone.
 
+
+Furthermore, it is structured so that it can be ported / reused in other environment. In particular, [codemirror-plus](codemirror-plus/README.md) provides a set of addons, extensions to standard addons, and a builder (tailored for html/css/js) that is used to construct this CMACS. 
+
 The code base is derived from [Mini Code Edit](https://github.com/GoogleChrome/chrome-app-samples/tree/master/samples/mini-code-edit) Google Chrome sample app.
 
-It is being refactored so that it can be ported / reused in other environment.
 
 ## Getting Started for developers
 
