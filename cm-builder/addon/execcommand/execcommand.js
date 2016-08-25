@@ -2,13 +2,11 @@
   if (typeof exports == "object" && typeof module == "object") // CommonJS
     mod(require("codemirror/lib/codemirror"),
         require("codemirror/addon/dialog/dialog"),
-        require("cm-builder/addon/hint/show-hint-dialog"),
-        require("cm-builder/lib/keyboardevent-util"));
+        require("cm-builder/addon/hint/show-hint-dialog"));
   else if (typeof define == "function" && define.amd) // AMD
     define(["codemirror/lib/codemirror",
             "codemirror/addon/dialog/dialog",
-            "cm-builder/addon/hint/show-hint-dialog",
-            "cm-builder/lib/keyboardevent-util"], mod);
+            "cm-builder/addon/hint/show-hint-dialog"], mod);
   else // Plain browser env
     mod(CodeMirror);
 })(function(
@@ -67,8 +65,8 @@
     // This event handler depends on the parameter cm of the outer function 
     function autoCompleteExecCmd(event) {
 
-      // if space or Ctrl-space (event.ctrlKey == true), so the logic reduced to just space
-      if (KeyboardEventUtl.codeEquals(event, "Space")) {
+      var keyName = CodeMirror.keyName(event);
+      if ("Space" === keyName || "Ctrl-Space" === keyName) {
         event.preventDefault();
         /// console.debug('Trying to to complete "%s"', event.target.value);
         var inpValue = event.target.value;

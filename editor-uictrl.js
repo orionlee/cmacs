@@ -14,8 +14,7 @@ function createEditorUICtrl(window, doc) {
   "use strict";
 
   // imports from global to support "use strict";
-  var console = window.console,
-      KeyboardEventUtl = window.KeyboardEventUtl;
+  var console = window.console;
   
   var _titleElt, _modeElt;
   // used to show status of some CM commands, addon, e.g., if lint is on, col num mode is on, etc.
@@ -329,8 +328,7 @@ function createEditorUICtrl(window, doc) {
         return; // don't allow dropdown menu action while the context menu is still active
       }
 
-      
-      if (KeyboardEventUtl.codeEquals(evt, "Escape")) { // hit Esc key to hide the dropdown
+      if ("Esc" === CodeMirror.keyName(evt)) { // hit Esc key to hide the dropdown
         destroyRecentListDropDownUI();
         evt.preventDefault();
         return;

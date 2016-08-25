@@ -6,8 +6,7 @@ function editorAppInit(window) {
       console = window.console,
       chrome = window.chrome,
       CodeMirror = window.CodeMirror,
-      DnDFileController = window.DnDFileController, 
-      KeyboardEventUtl = window.KeyboardEventUtl;
+      DnDFileController = window.DnDFileController;
   
   // globals defined in other cmacs top-level script
   var createIOCtrl = window.createIOCtrl, 
@@ -341,9 +340,8 @@ chrome.contextMenus.onClicked.addListener(function(info) {
     function preventOSExitWindow(evt) { 
       /// console.debug(evt);
 
-      if ( (evt.ctrlKey && KeyboardEventUtl.codeEquals(evt, "KeyW")) || // Ctrl-W
-          (evt.ctrlKey && KeyboardEventUtl.codeEquals(evt, "F4")) || 
-          (evt.altKey && KeyboardEventUtl.codeEquals(evt, "F4")) ) { 
+      var keyName = CodeMirror.keyName(evt);
+      if ( ["Ctrl-W", "Ctrl-F4", "Alt-F4"].indexOf(keyName) >= 0 ) {
         evt.preventDefault(); 
       }
     }  

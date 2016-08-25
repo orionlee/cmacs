@@ -76,7 +76,7 @@
     
     function autoCompleteSearchCmd(event) {
       // if Ctrl-space,
-      if (event.ctrlKey === true && KeyboardEventUtl.codeEquals(event, "Space")) { 
+      if ("Ctrl-Space" === CodeMirror.keyName(event)) { 
         event.preventDefault();
         /// console.debug('Trying to to complete "%s"', event.target.value);
         var inpValue = event.target.value;
