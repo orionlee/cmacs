@@ -421,11 +421,16 @@ function createIOCtrl(window, readSuccessCallback, saveSuccessCallback, newSucce
   // @interface
   function chooseAndOpen() {
     chrome.fileSystem.chooseEntry({ type: 'openFile' }, function(entry) {
-      if (entry) {
-        onChosenFileToOpen(entry);
-      } else {
-        console.debug('File Open: canceled by user. No-op.');
+      if(chrome.runtime.lastError) {
+        if (!entry) {
+          console.debug('File Open: canceled by user. No-op.');          
+        } else {
+          _errorCallback(chrome.runtime.lastError.message, chrome.runtime.lastError);
+        }
+        return;
       }
+      // normal case
+      onChosenFileToOpen(entry);
     }); // chrome.fileSystem.chooseEntry()
     
   } // function chooseAndOpen()
