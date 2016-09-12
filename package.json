@@ -14,10 +14,15 @@
     "chrome",
     "packaged app"
   ],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/orionlee/cmacs.git"
+  },
+  "author": "Sam Lee",
   "license": "MIT",
   "dependencies": {
     "codemirror": "^5.17.0",
+    "codemirror-plus": "^0.4.0",
     "htmlhint": "^0.9.13",
     "jsonlint": "^1.6.2",
     "jshint": "2.5.1 - 2.6.3"
