@@ -19,11 +19,12 @@ function editorAppInit(window) {
   // abstraction over (non-CodeMirror aka ediotr) UI  constructs and methods;
   var _uiCtrl; 
   var _ioCtrl;
-  
+
+  var _curFilePath; // used by handleDocumentChange()
   /**
- * Invoked after new file has been loaded to the editor,
- * to update UI, and possibly editor setup accordingly.
- */
+   * Invoked after new file has been loaded to the editor,
+   * to update UI, and possibly editor setup accordingly.
+   */
   function handleDocumentChange(filePath) {
     function findModeByFileContent(cm) {
       // implemented by inspecting shebang line, if it exists
@@ -60,7 +61,7 @@ function editorAppInit(window) {
       _uiCtrl.title.set("[no document loaded]");
     }
     
-    if (info && editor.getOption('mode') !== info.mime) {
+    if (info && editor.getOption('mode') !== info.mime && _curFilePath !== filePath) {
       _uiCtrl.setMode(info.name);
       editor.setOption("mode", info.mime);
       CodeMirror.autoLoadMode(editor, info.mode);
@@ -73,6 +74,7 @@ function editorAppInit(window) {
     // needed in case the editor is loaded via keyboard shortcut, e.g., open recent file.
     editor.focus();
 
+    _curFilePath = filePath;
     
     // site-specific workflow
     if (editorAppExtension.onHandleDocumentChange) {
@@ -132,8 +134,8 @@ function editorAppInit(window) {
     } else {
       chrome.app.window.create('main.html', {
         frame: 'none', width: window.outerWidth, height: window.outerHeight,
-        top: window.screenTop + window.screen.availHeight * 0.05,
-        left: window.screenLeft + window.screen.availWidth * 0.05
+        top: window.screenTop + Math.ceil(window.screen.availHeight * 0.05),
+        left: window.screenLeft + Math.ceil(window.screen.availWidth * 0.05)
       });
     }
   }
